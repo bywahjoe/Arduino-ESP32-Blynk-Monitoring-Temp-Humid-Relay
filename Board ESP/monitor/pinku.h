@@ -1,6 +1,7 @@
 #define pin_suhu 23
 #define type_suhu DHT11
 
+#define valsiram 20
 #define pin_tanah 35
 #define min_tanah 2400
 #define max_tanah 4095

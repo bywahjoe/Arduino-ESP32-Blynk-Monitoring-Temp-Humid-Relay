@@ -26,16 +26,17 @@ DHT dht(pin_suhu, type_suhu);
 void notif() {
   Serial.print("Blynk is Notify");
   
-  if (myTanah < 7) {
+  if (myTanah < valsiram) {
     Blynk.notify("Tanah Kering Menyiram");
     Serial.println("Tanah Kering:");
   } else {
     Serial.println("Tanah Basah:");
+    Blynk.notify("Tanah Basah Tidak Menyiram");
   }
 }
 void sendSensor() {
 
-  if (myTanah < 7) {
+  if (myTanah < valsiram) {
     buzzON();
     Serial2.write("n");//ON
   }
