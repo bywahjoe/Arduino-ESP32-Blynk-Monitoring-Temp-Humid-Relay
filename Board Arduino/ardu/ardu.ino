@@ -7,6 +7,11 @@
 #include <SoftwareSerial.h>
 #define relay 7
 
+//Waktu Siram
+int banyak = 25000;
+int sedang = 20000;
+int dikit = 15000;
+
 SoftwareSerial mySerial(8, 9);//rx tx
 
 void setup() {
@@ -19,17 +24,17 @@ void loop() {
   if (mySerial.available()) {
     recv = mySerial.read();
     Serial.println(recv);
-    if (recv == 'n') pompaON();
-    else if (recv == 'f')pompaOFF();
+    if (recv == 'b') {
+      pompaON(); delay(banyak);}
+    else if (recv == 's') {
+      pompaON();delay(sedang);    }
+    else if (recv == 'd') {
+      pompaON();delay(dikit);}
+    else if (recv == 't') {pompaOFF();}
     else {}
-    
-  } else {
-
-  }
-  //  pompaON();
-  //  delay(4000);
-  //  pompaOFF();
-  //  delay(2000);
+    pompaOFF();
+    mySerial.begin(115200);
+  } else {}
 }
 void pompaON() {
   Serial.println("RELAY IS ON");

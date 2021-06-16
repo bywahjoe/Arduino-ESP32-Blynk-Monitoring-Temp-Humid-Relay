@@ -24,30 +24,40 @@ LiquidCrystal_I2C lcd(0x27, 16, 2);
 DHT dht(pin_suhu, type_suhu);
 
 void notif() {
-  Serial.print("Blynk is Notify");
+//  Serial.print("Blynk is Notify");
+//  
+//  if (myTanah < valsiram) {
+//    Blynk.notify("Tanah Kering Menyiram");
+//    Serial.println("Tanah Kering:");
+//  } else {
+//    Serial.println("Tanah Basah:");
+//    Blynk.notify("Tanah Basah Tidak Menyiram");
+//  }
   
-  if (myTanah < valsiram) {
-    Blynk.notify("Tanah Kering Menyiram");
-    Serial.println("Tanah Kering:");
-  } else {
-    Serial.println("Tanah Basah:");
-    Blynk.notify("Tanah Basah Tidak Menyiram");
-  }
 }
 void sendSensor() {
-
-  if (myTanah < valsiram) {
-    buzzON();
-    Serial2.write("n");//ON
-  }
-  else {
-    buzzOFF();
-    Serial2.write("f");//OFF
-  }
-
   Blynk.virtualWrite(2, mySuhu);
   Blynk.virtualWrite(3, myTanah);
-
+  
+  //t : Tidak Menyiram
+  //b : Menyiram Banyak
+  //s : Menyiram sedang
+  //d : Menyiram Dikit
+  
+  if(mySuhu>=20 &&mySuhu<=24&& myTanah>=40 && myTanah<=70){
+    Serial2.write("d");
+    Blynk.notify("Menyiram Dikit");}
+  else if(mySuhu>=25 &&mySuhu<=29&& myTanah>=25 && myTanah<=35){
+    Serial2.write("s");
+    Blynk.notify("Menyiram Sedang");}
+  else if(mySuhu>29 &&mySuhu<=35&& myTanah>=1 && myTanah<=20){
+    Serial2.write("b");
+    Blynk.notify("Menyiram Banyak");}
+  else if(mySuhu>=15 &&mySuhu<=20&& myTanah>=80 && myTanah<=100){
+    Serial2.write("t");
+    Blynk.notify("Tidak Menyiram");}
+  else{}
+  
 }
 void setup() {
   // put your setup code here, to run once:
